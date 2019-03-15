@@ -1,0 +1,19 @@
+body {
+    background-color: #505050;
+}
+
+.login-wrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+}
+
+div.card-panel {
+    padding: 15px;
+}
+
+button {
+    width: 100%;
+}
