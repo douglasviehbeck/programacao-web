@@ -2,10 +2,11 @@
 	<div class="container">
 		<div class="card horizontal">
 			<div class="card-content">
-				<h2>Criar Projeto</h2>
+				<h2 v-if="$route.params.id">Editar Projeto</h2>
+				<h2 v-else>Criar Projeto</h2>
 
 				<div>
-					<ajax-form v-if="ready" action="/projetos/salvar" method="POST" @beforeSubmit="beforeSubmit" @success="$router.push('/listar/projetos')">
+					<ajax-form v-if="ready" action="/projetos/salvar" method="POST" @beforeSubmit="beforeSubmit" @success="onSuccess">
 						<div class="row">
 							<validation class="input-field col l12" :rules="['required']" v-slot="{ error }">
 								<label>Nome</label>
@@ -36,13 +37,17 @@
 							</div>
 						</div>
 
-						<div>
-							<button class="white-text waves-effect btn-small green darken-1 right" style="margin-top: 20px;">
+						<div style="margin-top: 20px;">
+							<button v-if="$route.params.id" type="button" class="white-text waves-effect btn-small red darken-3 left" @click="deletar">
+								Excluir
+							</button>
+
+							<button class="white-text waves-effect btn-small green darken-1 right">
 								Salvar
 							</button>
 
-							<router-link to="/listar/projetos">
-								<a class="white-text waves-effect btn-small red darken-1 right" style="margin-top: 20px; margin-right: 10px;">
+							<router-link to="/projetos/listar">
+								<a class="white-text waves-effect btn-small red darken-1 right" style="margin-right: 10px;">
 									Cancelar
 								</a>
 							</router-link>
@@ -72,7 +77,7 @@
 
 <script>
     export default {
-        name: 'CriarProjetos',
+        name: 'Projeto',
 		data: function () {
 			return {
 				ready: false,
@@ -90,19 +95,51 @@
             carregarDados: function () {
                 this.ready = false;
 
-				axios.get('/projetos/usuarios').then((usuarios) => {
-				    this.usuariosPossiveis = usuarios.data;
+                var route = '/projetos/dados';
+
+                if (this.$route.params.id) {
+                    route += '/' + this.$route.params.id;
+				}
+
+				axios.get(route).then((res) => {
+				    this.usuariosPossiveis = res.data.usuarios;
+
+				    if (res.data.projeto) {
+                        this.nome = res.data.projeto.nome;
+                        this.descricao = res.data.projeto.descricao;
+                        this.usuarios = res.data.projeto.usuarios || [];
+                    }
 
 				    this.ready = true;
 
                     this.$nextTick(() => {
                         M.FormSelect.init(this.$refs.usuarios);
+                        M.updateTextFields();
                     });
+				}).catch((error) => {
+				    if (error.response.status === 404) {
+                        this.$flash('error', 'Este registro não existe');
+						this.$router.push('/projetos/listar');
+					}
 				});
             },
             beforeSubmit: function (params) {
-                params['projeto'] = this.projeto;
+                params['projeto'] = this.$route.params.id;
             },
+			onSuccess: function () {
+                this.$flash('success', 'Registro inserido com sucesso');
+                this.$router.push('/projetos/listar');
+            },
+			deletar: function () {
+                axios.post('/projetos/deletar/' + this.$route.params.id).then((res) => {
+					this.$router.push('/projetos/listar');
+                }).catch((error) => {
+                    if (error.response.status === 404) {
+                        this.$flash('error', 'Este registro não existe');
+                        this.$router.push('/projetos/listar');
+                    }
+                });
+            }
         }
     }
 </script>

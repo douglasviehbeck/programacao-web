@@ -4,6 +4,13 @@ import Vue from 'vue';
 require('./bootstrap');
 
 Vue.prototype.$rules = require('./rules').default;
+Vue.prototype.$flashMessages = {messages: []};
+Vue.prototype.$flash = function (type, message) {
+    Vue.prototype.$flashMessages.messages.push({
+        type,
+        message,
+    });
+};
 
 window.Vue = Vue;
 

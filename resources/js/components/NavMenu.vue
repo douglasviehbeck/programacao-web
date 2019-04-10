@@ -18,7 +18,7 @@
 				</div>
 			</div>
 		</li>
-		<router-link tag="li" to="/listar/projetos" class="menu-item">
+		<router-link tag="li" to="/projetos/listar" class="menu-item">
 			<a class="waves-effect waves-teal">
 				Projetos
 			</a>
@@ -46,5 +46,9 @@
 
 	.menu-item {
 		cursor: pointer;
+	}
+
+	a {
+		text-decoration: none !important;
 	}
 </style>

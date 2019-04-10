@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<nav-menu></nav-menu>
+		<flash-message />
 		<div class="content-spa">
 			<router-view />
 		</div>

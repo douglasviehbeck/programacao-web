@@ -15,13 +15,13 @@
 							</thead>
 							<tbody>
 								<tr v-for="projeto in projetos">
-									<td>{{ projeto.nome }}</td>
-									<td>{{ projeto.criador }}</td>
+									<td @click="$router.push(`/projetos/editar/${projeto.id}`)">{{ projeto.nome }}</td>
+									<td @click="$router.push(`/projetos/editar/${projeto.id}`)">{{ projeto.criador }}</td>
 								</tr>
 							</tbody>
 						</table>
 
-						<router-link to="/criar/projetos">
+						<router-link to="/projetos/criar">
 							<a class="white-text waves-effect btn-small blue darken-1" style="margin-top: 20px;">
 								<i class="material-icons left">add</i>
 								Adicionar
@@ -52,7 +52,7 @@
 
 <script>
     export default {
-        name: 'ListagemProjetos',
+        name: 'ListagemProjeto',
 		data: function () {
 			return {
 				ready: false,

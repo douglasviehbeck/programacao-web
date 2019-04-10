@@ -19,4 +19,14 @@ class Projeto extends Model
     {
         return $this->belongsTo(Usuario::class, 'usuarioId', 'usuarioId');
     }
+
+    public function usuariosProjeto()
+    {
+        return $this->hasMany(ProjetoUsuario::class, 'projetoId', 'projetoId');
+    }
+
+    public function usuarios()
+    {
+        return $this->belongsToMany(Usuario::class, 'projetosUsuarios', 'projetoId', 'usuarioId', 'projetoId', 'usuarioId');
+    }
 }

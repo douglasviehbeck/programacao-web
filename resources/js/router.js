@@ -1,17 +1,21 @@
 import VueRouter from 'vue-router';
-import ListagemProjetos from './components/ListagemProjetos';
-import CriarProjetos from './components/CriarProjetos';
+import ListagemProjeto from './components/ListagemProjeto';
+import Projeto from './components/Projeto';
 
 Vue.use(VueRouter);
 
 const routes = [
     {
-        path: '/listar/projetos',
-        component: ListagemProjetos,
+        path: '/projetos/listar',
+        component: ListagemProjeto,
     },
     {
-        path: '/criar/projetos',
-        component: CriarProjetos,
+        path: '/projetos/criar',
+        component: Projeto,
+    },
+    {
+        path: '/projetos/editar/:id',
+        component: Projeto,
     },
 ];
 
