@@ -55,13 +55,15 @@ class ProjetosController extends Controller
 
         $projeto->usuarios()->sync($request->usuarios);
 
-        return $projeto->usuarios;
+        return $projeto->only(['projetoId', 'nome', 'descricao']);
     }
 
     public function deletar(Projeto $projeto)
     {
         $projeto->usuariosProjeto()->delete();
         $projeto->delete();
+
+        return ['success' => true];
     }
 
     private function validarProjeto($inputs)
