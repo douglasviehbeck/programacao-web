@@ -1,0 +1,392 @@
+{
+  "id": "ef4a978b-d0f9-48fb-ba04-dc52590f598d",
+  "version": "2.0",
+  "name": "projects-app",
+  "url": "http://127.0.0.1:8000",
+  "tests": [{
+    "id": "9f22f371-c745-453b-b33b-5a26c8c4568a",
+    "name": "Login válido",
+    "commands": [{
+      "id": "ea5a54e4-8614-4501-b7c5-51bac87e8a8f",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "58dd5a03-9f54-46b2-acba-3d3c09ca7332",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [],
+      "value": "douglas"
+    }, {
+      "id": "be5a7cff-a143-448c-be85-93c0169bee8a",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [],
+      "value": "teste123"
+    }, {
+      "id": "cd6e1eb0-98ee-4d0e-a815-af9b74ce0c80",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "091d5bfd-8b54-475f-b9e4-fbd2b781c2e2",
+      "comment": "",
+      "command": "pause",
+      "target": "1500",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8a312dc3-57c2-4a6a-bd17-479da7763741",
+      "comment": "Valida existência da navbar",
+      "command": "assertElementPresent",
+      "target": "css=.sidenav",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "ff43cc2d-1625-4d31-b79c-b4002c8da5f5",
+    "name": "Criação inválida",
+    "commands": [{
+      "id": "a5ff6240-8dec-4a7a-b98e-45f72466c3b1",
+      "comment": "",
+      "command": "open",
+      "target": "/projetos/listar",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "db1e1c79-f90c-4244-8be6-97e606f313ee",
+      "comment": "",
+      "command": "click",
+      "target": "css=.white-text",
+      "targets": [
+        ["linkText=Projetos", "linkText"],
+        ["css=.menu-item:nth-child(2) > .waves-effect", "css:finder"],
+        ["xpath=//a[contains(text(),'Projetos')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/projetos/listar')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'Projetos')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2ecc9a32-e67a-4b1d-847d-58abe1524c8a",
+      "comment": "",
+      "command": "pause",
+      "target": "500",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1f1b402b-e455-47d0-958f-ea7f0f6aeb48",
+      "comment": "",
+      "command": "click",
+      "target": "css=.green",
+      "targets": [
+        ["css=.green", "css:finder"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "00547eb4-c284-4589-b143-d220306bbd33",
+      "comment": "",
+      "command": "pause",
+      "target": "1500",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "28cd0764-c07d-4983-a4f9-b22831f46da9",
+      "comment": "",
+      "command": "executeScript",
+      "target": "var elements = document.querySelectorAll('.helper-text'); elements.forEach((item, index) => { \titem.value = item.getAttribute('data-error'); \titem.classList.add('error-' + index); })",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3491a9dd-06d3-45c1-86f0-da68290a1314",
+      "comment": "Valida preenchimento de nome",
+      "command": "assertValue",
+      "target": "css=.error-0",
+      "targets": [],
+      "value": "O campo é obrigatório"
+    }, {
+      "id": "b9fe2b38-9033-4005-8c5e-7f2643097d69",
+      "comment": "Valida preenchimento de descrição",
+      "command": "assertValue",
+      "target": "css=.error-1",
+      "targets": [],
+      "value": "O campo é obrigatório"
+    }]
+  }, {
+    "id": "2f579a8b-7690-46a9-9c95-f645639c267a",
+    "name": "Login inválido",
+    "commands": [{
+      "id": "e9191561-4102-4d3f-a6a6-071b1fed940f",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f6dc96ce-fee0-44a2-9fec-d1ebe970fe0e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a0199e28-02ef-4fa3-bfeb-9f987704fe73",
+      "comment": "",
+      "command": "pause",
+      "target": "1000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9ef01211-22c8-4fe6-a082-51ff87a3d78d",
+      "comment": "",
+      "command": "executeScript",
+      "target": "var elements = document.querySelectorAll('.helper-text'); elements.forEach((item, index) => {     item.value = item.getAttribute('data-error');     item.classList.add('error-' + index); })",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9b36221a-79d1-467a-930d-4d9b3df17d85",
+      "comment": "Valida preenchimento de usuário",
+      "command": "assertValue",
+      "target": "css=.error-0",
+      "targets": [],
+      "value": "O usuário é obrigatório"
+    }, {
+      "id": "9a905563-5aee-47cd-98d8-6a513c459db9",
+      "comment": "Valida preenchimento de senha",
+      "command": "assertValue",
+      "target": "css=.error-1",
+      "targets": [],
+      "value": "A senha é obrigatória"
+    }, {
+      "id": "331658c1-857e-4c2a-bcc8-51ff045d5cdc",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [],
+      "value": "invalido"
+    }, {
+      "id": "d6df1778-a842-4560-9d64-ce49a5cef37b",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [],
+      "value": "invalido"
+    }, {
+      "id": "e08a2d75-2b68-401e-a89e-d6a9ff032cf7",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c0eb863d-781e-4f67-801d-c4d50a8cf73d",
+      "comment": "",
+      "command": "pause",
+      "target": "1500",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d476deff-3b4b-4009-b7d1-271a2775b6e8",
+      "comment": "Valida login inválido",
+      "command": "assertText",
+      "target": "css=.card-panel",
+      "targets": [
+        ["css=.card-panel", "css:finder"],
+        ["xpath=//form/div", "xpath:position"]
+      ],
+      "value": "Usuário e/ou senha inválido(s)"
+    }, {
+      "id": "057dd5e2-29c8-4927-97c6-c9b241e1fde6",
+      "comment": "",
+      "command": "",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "ba845aaa-462b-44b8-86f4-1a7d44c67871",
+    "name": "Criação válida",
+    "commands": [{
+      "id": "82b46f1e-b70b-4c0c-b6b6-3458b9d199c4",
+      "comment": "",
+      "command": "open",
+      "target": "/projetos/listar",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "bb0c43ec-d441-4aa5-96d7-f2d4c28ff3d0",
+      "comment": "",
+      "command": "executeScript",
+      "target": "var el = document.querySelector('tbody'); document.listCount = el.children.length;",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2b18e0f8-c85a-48bc-afbb-6f25e29a8276",
+      "comment": "",
+      "command": "click",
+      "target": "css=.white-text",
+      "targets": [
+        ["linkText=Projetos", "linkText"],
+        ["css=.menu-item:nth-child(2) > .waves-effect", "css:finder"],
+        ["xpath=//a[contains(text(),'Projetos')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/projetos/listar')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'Projetos')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "683cfa9b-e4ad-4739-a99b-9a4165554ed4",
+      "comment": "",
+      "command": "pause",
+      "target": "500",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d77f8466-e634-4ea5-a945-7a1f6ade81ee",
+      "comment": "",
+      "command": "type",
+      "target": "name=nome",
+      "targets": [
+        ["name=nome", "name"],
+        ["css=input:nth-child(2)", "css:finder"],
+        ["xpath=//input[@name='nome']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "novoprojeto"
+    }, {
+      "id": "813ff020-6fc8-438d-9b45-1e90638f40a8",
+      "comment": "",
+      "command": "type",
+      "target": "name=descricao",
+      "targets": [
+        ["name=descricao", "name"],
+        ["css=.materialize-textarea", "css:finder"],
+        ["xpath=//textarea[@name='descricao']", "xpath:attributes"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "descricao"
+    }, {
+      "id": "10e7cca5-a9af-4567-8138-c50c0639a3a6",
+      "comment": "",
+      "command": "click",
+      "target": "css=.green",
+      "targets": [
+        ["css=.green", "css:finder"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e5afb50f-c491-4b63-a467-fb8e5574b8e3",
+      "comment": "",
+      "command": "pause",
+      "target": "1500",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d645352e-1751-4612-bb62-57453196c652",
+      "comment": "",
+      "command": "executeScript",
+      "target": "var el = document.querySelector('tbody'); if (document.listCount === el.children.length - 1) { \tdocument.querySelector('.card-content').value = 'true'; }",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a16d1536-5853-4e2d-a5e7-f289c6db7b43",
+      "comment": "",
+      "command": "assertValue",
+      "target": "css=.card-content",
+      "targets": [
+        ["css=.card-content", "css:finder"],
+        ["xpath=//div[2]/div/div/div", "xpath:position"]
+      ],
+      "value": "true"
+    }]
+  }, {
+    "id": "849954e8-c534-4c7a-ba98-749636362a65",
+    "name": "Exclusão válida",
+    "commands": [{
+      "id": "7ab53198-4028-4d1b-85ac-ac22eb2e2265",
+      "comment": "",
+      "command": "open",
+      "target": "/projetos/listar",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "71b7f82c-edd4-4a4d-b8a0-6d7217e4f05f",
+      "comment": "",
+      "command": "executeScript",
+      "target": "var el = document.querySelector('tbody'); document.listCount = el.children.length;",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "31aa94ab-e0e5-438c-9862-b31772519b10",
+      "comment": "",
+      "command": "click",
+      "target": "css=tr:nth-child(1) > td:nth-child(1)",
+      "targets": [
+        ["css=tr:nth-child(1) > td:nth-child(1)", "css:finder"],
+        ["xpath=//td", "xpath:position"],
+        ["xpath=//td[contains(.,'231233')]", "xpath:innerText"]
+      ],
+      "value": "novoprojeto"
+    }, {
+      "id": "70316d40-6f9c-4e32-a290-10befd38d0ca",
+      "comment": "",
+      "command": "pause",
+      "target": "500",
+      "targets": [],
+      "value": "descricao"
+    }, {
+      "id": "7bdb4192-9052-4129-a2c9-dbea400ed580",
+      "comment": "",
+      "command": "click",
+      "target": "css=.darken-3",
+      "targets": [
+        ["css=.darken-3", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1470e104-1fec-4d3b-94ac-ba4f02c87827",
+      "comment": "",
+      "command": "pause",
+      "target": "1500",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ed3420bc-c92f-41c2-a0f3-137980c6f2cb",
+      "comment": "",
+      "command": "executeScript",
+      "target": "var el = document.querySelector('tbody'); if (document.listCount === el.children.length + 1) { \tdocument.querySelector('.card-content').value = 'true'; }",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "bfe8650f-6254-47b9-94d4-839125a784eb",
+      "comment": "",
+      "command": "assertValue",
+      "target": "css=.card-content",
+      "targets": [
+        ["css=.card-content", "css:finder"],
+        ["xpath=//div[2]/div/div/div", "xpath:position"]
+      ],
+      "value": "true"
+    }]
+  }],
+  "suites": [{
+    "id": "23bbe9b7-223a-4e98-8fea-bffa542b13df",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["9f22f371-c745-453b-b33b-5a26c8c4568a"]
+  }],
+  "urls": ["http://127.0.0.1:8000/"],
+  "plugins": []
+}
