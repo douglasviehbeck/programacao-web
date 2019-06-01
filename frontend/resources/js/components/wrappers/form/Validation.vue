@@ -13,7 +13,8 @@
             },
 			component: {
                 default: 'div'
-			}
+			},
+			name: {},
         },
         data: function () {
             return {
@@ -25,6 +26,10 @@
                 this.errors = [];
 
                 var element = this.findElement();
+
+                if (!element) {
+                    return true;
+				}
 
                 this.rules.forEach((rule) => {
                     var ruleFunc = null;
@@ -53,12 +58,12 @@
                 return true;
             },
 			findElement: function () {
-                var tags = ['input', 'textarea', 'select'];
+                var tags = ['input', 'textarea', 'select', 'm-text-field'];
 
                 var element = null;
 
                 this._vnode.children.forEach((child) => {
-                    if (tags.includes(child.tag)) {
+                    if (tags.includes(child.tag) || (child.componentOptions && tags.includes(child.componentOptions.tag))) {
 						element = child;
                     }
 				});

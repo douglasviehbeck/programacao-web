@@ -21,15 +21,20 @@
 		methods: {
             onSubmit: function (event) {
                 event.preventDefault();
+                event.stopPropagation();
 
                 if (this.validateComponent(this)) {
-                    var methods = ['get', 'post'];
+                    var methods = ['get', 'post', 'put', 'delete'];
 
                     if (!methods.includes(this.method.toLowerCase())) {
                         throw new Error('Método "' + this.method + '" não existe');
                     }
 
-                    var values = this.findValues();
+                    var values = {};
+
+                    $(this.$el).serializeArray().forEach((field) => {
+						values[field.name] = field.value;
+					});
 
                     this.$emit('beforeSubmit', values);
 
@@ -77,13 +82,13 @@
 
                 component.$children.forEach((child) => {
                     if (child._isVue && child.$vnode.tag.includes('Validation') && child.validate) {
-						if (!this.elements[this.findElement(child._vnode).data.attrs.name]) {
-                            this.elements[this.findElement(child._vnode).data.attrs.name] = {};
-						}
+						var name = child.name || this.findName(child);
 
-                        this.elements[this.findElement(child._vnode).data.attrs.name]['validation'] = child;
+						this.elements[name] = this.elements[name] || {};
 
-                        proceed = child.validate() && proceed;
+						this.elements[name]['validation'] = child;
+
+						proceed = child.validate() && proceed;
                     }
 
                     if (child.$children && child.$children.length) {
@@ -94,45 +99,31 @@
                 return proceed;
 			},
             findElement: function (vnode = this._vnode) {
-                var tags = ['input', 'textarea', 'select'];
+                var tags = ['input', 'textarea', 'select', 'm-text-field'];
 
                 var element = null;
 
-                vnode.children.forEach((child) => {
-                    if (tags.includes(child.tag)) {
-                        element = child;
-                    }
-                });
+				if (vnode.children) {
+                    vnode.children.forEach((child) => {
+                        if (tags.includes(child.tag) || (child.componentOptions && tags.includes(child.componentOptions.tag))) {
+                            element = child;
+                        } else if (child.children) {
+                            var nestedEl = this.findElement(child);
 
-                return element;
+                            if (nestedEl && tags.includes(nestedEl.tag)) {
+                                element = nestedEl;
+                            }
+                        }
+                    });
+                }
+
+                return element || vnode;
             },
-			findValues: function (vnode = this._vnode, values = {}) {
-                var tags = ['input', 'textarea', 'select'];
+			findName: function (vnode) {
+                var element = this.findElement(vnode._vnode);
 
-                vnode.children.forEach((child) => {
-					if (tags.includes(child.tag)) {
-					    if (!this.elements[child.data.attrs.name]) {
-                            this.elements[child.data.attrs.name] = {};
-						}
-
-					    this.elements[child.data.attrs.name]['element'] = child;
-
-						if (child.data.domProps) {
-                            values[child.data.attrs.name] = child.data.domProps.value;
-                        } else {
-                            values[child.data.attrs.name] = $(child.elm).val();
-						}
-					}
-
-					if (child.children && child.children.length) {
-						this.findValues(child, values);
-					} else if (child.child) {
-                        this.findValues(child.child._vnode, values);
-					}
-				});
-
-                return values;
-            }
+                return (element.data.domProps || element.data.attrs || element.componentOptions.propsData).name;
+            },
 		}
     }
 </script>
