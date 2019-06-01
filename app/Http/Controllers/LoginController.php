@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ErrorMessageException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 
 class LoginController extends Controller
 {
@@ -13,23 +13,25 @@ class LoginController extends Controller
         $errors = [];
 
         if (is_null($request->username)) {
-            $errors['username'] = 'null';
+            $errors['username'] = 'O campo é obrigatório';
         }
 
         if (is_null($request->password)) {
-            $errors['password'] = 'null';
+            $errors['password'] = 'O campo é obrigatório';
         }
 
         if (!empty($errors)) {
-            return Redirect::back()->withErrors($errors);
+            throw new ErrorMessageException($errors);
         }
 
-        if (!Auth::attempt($request->only(['password', 'username',]))) {
-            return Redirect::back()->withErrors([
-                'loginError' => 'invalid'
+        $token = Auth::attempt($request->only(['password', 'username',]));
+
+        if (!$token) {
+            throw new ErrorMessageException([
+                'loginError' => 'Usuário e/ou senha inválidos',
             ]);
         }
 
-        return redirect('/');
+        return $token;
     }
 }

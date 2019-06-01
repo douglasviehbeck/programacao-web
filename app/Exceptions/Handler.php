@@ -13,10 +13,6 @@ class Handler extends ExceptionHandler
 {
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof NotFoundHttpException && !Auth::check()) {
-            return Redirect::guest('/');
-        }
-
         if ($exception instanceof ErrorMessageException && $request->header('Vuelidation')) {
             return response()->json(array_merge([
                 'Vuelidation' => [

@@ -25,10 +25,6 @@ class VerifyCsrfToken extends Middleware
 
     public function handle($request, \Closure $next)
     {
-        if (App::runningUnitTests()) {
-            return $next($request);
-        }
-
-        return parent::handle($request, $next);
+        return $next($request);
     }
 }

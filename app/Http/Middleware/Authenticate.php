@@ -12,7 +12,7 @@ class Authenticate
     public function handle($request, Closure $next)
     {
         if (!Auth::check() && !App::runningUnitTests()) {
-            return Redirect::guest('/');
+            abort(401);
         }
 
         return $next($request);
