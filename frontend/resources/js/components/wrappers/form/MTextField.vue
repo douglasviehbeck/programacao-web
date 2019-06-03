@@ -6,11 +6,6 @@
     export default {
         name: 'MTextField',
 		props: ['value'],
-		mounted: function () {
-        	this.$nextTick(() => {
-                M.updateTextFields();
-			});
-		},
     }
 </script>
 

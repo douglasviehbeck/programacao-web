@@ -15,7 +15,8 @@ mix.webpackConfig({
 
 mix.options({
     hmrOptions: {
-        host: 'pweb.local'
+        host: 'pweb.local',
+        port: 8079,
     }
 });
 

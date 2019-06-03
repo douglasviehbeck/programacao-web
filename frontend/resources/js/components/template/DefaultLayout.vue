@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<nav-menu></nav-menu>
-		<flash-message></flash-message>
+		<navigation></navigation>
+<!--		<flash-message></flash-message>-->
 		<div class="content-spa">
-			<router-view />
+<!--			<router-view />-->
 		</div>
 	</div>
 </template>

@@ -113,11 +113,6 @@
                     }
 
 				    this.ready = true;
-
-                    this.$nextTick(() => {
-                        M.FormSelect.init(this.$refs.usuarios);
-                        M.updateTextFields();
-                    });
 				}).catch((error) => {
 				    if (error.response.status === 404) {
                         this.$flash('error', 'Este registro não existe');
