@@ -1,14 +1,23 @@
+input.is-invalid {
+    padding: .6rem 1rem !important;
+}
 
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@-moz-keyframes spin {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(359deg);}
+}
 
-// Variables
-@import 'variables';
+@-webkit-keyframes spin {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(359deg);}
+}
 
-// Bootstrap
-@import '../../node_modules/bootstrap/scss/bootstrap';
+@keyframes spin {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(359deg);}
+}
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+[class*="zwicon-"].spin:before {
+    display: inline-block;
+    animation: spin 1s infinite linear;
 }

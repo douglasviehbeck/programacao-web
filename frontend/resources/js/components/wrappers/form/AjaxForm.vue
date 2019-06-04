@@ -55,9 +55,7 @@
 
                         if (res.data && res.data.Vuelidation && res.data.Vuelidation.hash && res.data.Vuelidation.hash === hash) {
                             for (var field in res.data.Vuelidation.messages) {
-                                if (this.elements[field]['validation']) {
-                                    this.elements[field]['validation'].setErrors(res.data.Vuelidation.messages[field]);
-                                }
+								this.elements[field]['validation'].setErrors(res.data.Vuelidation.messages[field]);
                             }
 
                             status = -1;

@@ -1,30 +1,35 @@
 <template>
-	<div style="width: 100%; height: 100%; background-color: #505050">
-		<div class="login-wrapper">
-			<div class="card">
-				<div class="card-content">
-					<div style="text-align: center">
-						<img src="/img/system.png" height="150px" width="150px" />
-					</div>
-					<ajax-form action="/login" method="POST" @success="redirect">
-						<validation name="loginError" v-slot="{ error }">
-							<div v-if="error" style="margin-bottom: 30px;" class="card-panel white-text red darken-1">{{ error }}</div>
-						</validation>
+	<div class="login">
 
-						<validation class="input-field" :rules="['required']" v-slot="{ error }">
-							<label>Usuário</label>
-							<m-text-field v-model="username" name="username" :class="{ invalid: error }"></m-text-field>
-							<span class="helper-text" :data-error="error"></span>
-						</validation>
-						<validation class="input-field" :rules="['required']" v-slot="{ error }">
-							<label>Senha</label>
-							<m-text-field v-model="password" name="password" type="password" :class="{ invalid: error }"></m-text-field>
-							<span class="helper-text" :data-error="error"></span>
-						</validation>
+		<!-- Login -->
+		<div class="login__block active">
+			<div class="login__block__header">
+				<img src="/img/system.png" />
 
-						<button class="btn btn-primary waves-effect waves-light">Entrar</button>
-					</ajax-form>
-				</div>
+				Por favor, faça seu login
+			</div>
+
+			<div class="login__block__body">
+				<ajax-form action="/login" method="POST" @success="redirect" @validationError="loading = false" @beforeSubmit="loading = true">
+					<validation name="loginError" v-slot="{ error }">
+						<div style="font-size: 1.1rem" :class="{'invalid-feedback': true, 'd-block': error, 'mb-3': error}">{{ error }}</div>
+					</validation>
+
+					<validation :rules="['required']" class="form-group" v-slot="{ error }">
+						<input type="text" name="username" :class="{'form-control': true, 'text-center': true, 'is-invalid': error}" placeholder="Login">
+						<div class="invalid-feedback">{{ error }}</div>
+					</validation>
+
+					<validation :rules="['required']" class="form-group" v-slot="{ error }">
+						<input type="password" name="password" :class="{'form-control': true, 'text-center': true, 'is-invalid': error}" placeholder="Senha">
+						<div class="invalid-feedback">{{ error }}</div>
+					</validation>
+
+					<button href="javascript:;" class="btn btn-block btn-theme-dark btn--icon">
+						<i v-if="loading" class="zwicon-rotate-right spin"></i>
+						<i v-else class="zwicon-arrow-right"></i>
+					</button>
+				</ajax-form>
 			</div>
 		</div>
 	</div>
@@ -37,6 +42,7 @@
 			return {
 			    username: null,
 				password: null,
+                loading : false,
 			};
         },
 		methods: {
@@ -53,31 +59,6 @@
     }
 </script>
 
-<style>
-	html, body {
-		min-height: 100%;
-		height: 100%;
-	}
-</style>
-
 <style scoped>
-	body {
-		background-color: #505050;
-	}
 
-	.login-wrapper {
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		transform: translate(-50%, -50%);
-		width: 500px;
-	}
-
-	div.card-panel {
-		padding: 15px;
-	}
-
-	button {
-		width: 100%;
-	}
 </style>

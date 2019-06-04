@@ -20,4 +20,5 @@ mix.options({
     }
 });
 
-mix.js('resources/js/app.js', 'public/js/app.js');
+mix.js('resources/js/app.js', 'public/js/app.js')
+   .sass('resources/sass/app.scss', 'public/css/app.css');
