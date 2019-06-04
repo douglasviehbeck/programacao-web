@@ -2,49 +2,41 @@
 	<div>
 		<header class="content__title">
 			<h1>Projetos</h1>
+
+			<div class="actions">
+				<router-link to="/projetos/criar" class="btn btn-theme-dark zwicon-plus">
+					Adicionar
+				</router-link>
+			</div>
 		</header>
 		<div class="card">
 			<div class="card-body">
 				<div>
-					<div v-if="ready">
-						<table class="table table-dark">
-							<thead>
-								<tr>
-									<th>Nome</th>
-									<th>Criador</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="projeto in projetos">
-									<td @click="$router.push(`/projetos/editar/${projeto.id}`)">{{ projeto.nome }}</td>
-									<td @click="$router.push(`/projetos/editar/${projeto.id}`)">{{ projeto.criador }}</td>
-								</tr>
-							</tbody>
-						</table>
-
-						<router-link to="/projetos/criar">
-							<a class="white-text waves-effect btn-small blue darken-1" style="margin-top: 20px;">
-								<i class="material-icons left">add</i>
-								Adicionar
-							</a>
-						</router-link>
-					</div>
-
-					<div class="spinner-wrapper" v-else>
-						<div class="preloader-wrapper big active">
-							<div class="spinner-layer spinner-blue-only">
-								<div class="circle-clipper left">
-									<div class="circle"></div>
-								</div>
-								<div class="gap-patch">
-									<div class="circle"></div>
-								</div>
-								<div class="circle-clipper right">
-									<div class="circle"></div>
-								</div>
-							</div>
+					<fade-transition>
+						<div v-if="ready">
+							<table class="table table-dark table-hover">
+								<thead class="thead-dark">
+									<tr>
+										<th>Nome</th>
+										<th>Criador</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-if="!projetos.length">
+										<td colspan="2" class="text-center">
+											Parece que você não participa de nenhum projeto...
+										</td>
+									</tr>
+									<tr v-for="projeto in projetos" @click="$router.push(`/projetos/editar/${projeto.id}`)" style="cursor: pointer;">
+										<td>{{ projeto.nome }}</td>
+										<td>{{ projeto.criador }}</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
-					</div>
+
+						<loader v-else></loader>
+					</fade-transition>
 				</div>
 			</div>
 		</div>
@@ -78,15 +70,7 @@
 </script>
 
 <style scoped>
-	.container {
-		/*margin-top: 50px;*/
-		max-width: 85%;
-	}
-
-	.spinner-wrapper {
-		min-height: 300px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+	table {
+		margin-bottom: 0;
 	}
 </style>

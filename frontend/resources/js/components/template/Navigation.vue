@@ -6,7 +6,7 @@
             </div>
         </header>
         <aside class="sidebar">
-            <div>
+            <div class="scrollbar">
                 <div class="user">
                     <div class="user__info">
                         <img class="user__img" src="/img/users/default_user.png">
@@ -19,7 +19,7 @@
 
                 <ul class="navigation">
                     <menu-item route="projetos.listar">
-                        <i class="zmdi zmdi-home"></i> Projetos
+                        <i class="zwicon-layer-stack"></i> Projetos
                     </menu-item>
                 </ul>
             </div>

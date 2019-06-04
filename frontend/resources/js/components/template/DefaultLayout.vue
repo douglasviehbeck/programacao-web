@@ -3,7 +3,9 @@
 		<navigation></navigation>
 		<section class="content">
 			<div class="content__inner">
-				<router-view />
+				<fade-transition mode="out-in" :duration="100">
+					<router-view />
+				</fade-transition>
 			</div>
 		</section>
 	</div>
