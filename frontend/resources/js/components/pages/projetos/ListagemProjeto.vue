@@ -1,47 +1,46 @@
 <template>
-	<div class="container">
-		<div class="row">
-			<div class="card">
-				<div class="card-content">
-					<h2>Projetos</h2>
+	<div>
+		<header class="content__title">
+			<h1>Projetos</h1>
+		</header>
+		<div class="card">
+			<div class="card-body">
+				<div>
+					<div v-if="ready">
+						<table class="table table-dark">
+							<thead>
+								<tr>
+									<th>Nome</th>
+									<th>Criador</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="projeto in projetos">
+									<td @click="$router.push(`/projetos/editar/${projeto.id}`)">{{ projeto.nome }}</td>
+									<td @click="$router.push(`/projetos/editar/${projeto.id}`)">{{ projeto.criador }}</td>
+								</tr>
+							</tbody>
+						</table>
 
-					<div>
-						<div v-if="ready">
-							<table class="highlight responsive-table">
-								<thead>
-									<tr>
-										<th>Nome</th>
-										<th>Criador</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr v-for="projeto in projetos">
-										<td @click="$router.push(`/projetos/editar/${projeto.id}`)">{{ projeto.nome }}</td>
-										<td @click="$router.push(`/projetos/editar/${projeto.id}`)">{{ projeto.criador }}</td>
-									</tr>
-								</tbody>
-							</table>
+						<router-link to="/projetos/criar">
+							<a class="white-text waves-effect btn-small blue darken-1" style="margin-top: 20px;">
+								<i class="material-icons left">add</i>
+								Adicionar
+							</a>
+						</router-link>
+					</div>
 
-							<router-link to="/projetos/criar">
-								<a class="white-text waves-effect btn-small blue darken-1" style="margin-top: 20px;">
-									<i class="material-icons left">add</i>
-									Adicionar
-								</a>
-							</router-link>
-						</div>
-
-						<div class="spinner-wrapper" v-else>
-							<div class="preloader-wrapper big active">
-								<div class="spinner-layer spinner-blue-only">
-									<div class="circle-clipper left">
-										<div class="circle"></div>
-									</div>
-									<div class="gap-patch">
-										<div class="circle"></div>
-									</div>
-									<div class="circle-clipper right">
-										<div class="circle"></div>
-									</div>
+					<div class="spinner-wrapper" v-else>
+						<div class="preloader-wrapper big active">
+							<div class="spinner-layer spinner-blue-only">
+								<div class="circle-clipper left">
+									<div class="circle"></div>
+								</div>
+								<div class="gap-patch">
+									<div class="circle"></div>
+								</div>
+								<div class="circle-clipper right">
+									<div class="circle"></div>
 								</div>
 							</div>
 						</div>

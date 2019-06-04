@@ -18,11 +18,9 @@
                 </div>
 
                 <ul class="navigation">
-                    <li class="navigation__sub">
-                        <router-link to="/projetos/listar">
-                            <i class="zmdi zmdi-home"></i> Projetos
-                        </router-link>
-                    </li>
+                    <menu-item route="projetos.listar">
+                        <i class="zmdi zmdi-home"></i> Projetos
+                    </menu-item>
                 </ul>
             </div>
         </aside>
@@ -32,6 +30,11 @@
 <script>
     export default {
         name: 'Navigation',
+        data: function () {
+            return {
+                selectedMenu: null,
+            };
+        },
     }
 </script>
 

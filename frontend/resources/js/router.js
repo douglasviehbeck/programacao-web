@@ -14,16 +14,22 @@ const routes = [
         component: DefaultLayout,
         children: [
             {
+                name: 'projetos.listar',
                 path: '/projetos/listar',
                 component: Vue.component('listagem-projeto'),
+                meta: { menu: 'projetos.listar' },
             },
             {
+                name: 'projetos.criar',
                 path: '/projetos/criar',
                 component: Vue.component('projeto'),
+                meta: { menu: 'projetos.listar' },
             },
             {
+                name: 'projetos.editar',
                 path: '/projetos/editar/:id',
                 component: Vue.component('projeto'),
+                meta: { menu: 'projetos.listar' },
             },
         ],
     },
