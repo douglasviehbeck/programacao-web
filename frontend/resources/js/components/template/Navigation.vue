@@ -1,12 +1,12 @@
 <template>
     <div>
         <header class="header">
-            <div class="navigation-trigger hidden-xl-up" data-sa-action="aside-open" data-sa-target=".sidebar">
-                <i class="zmdi zmdi-menu"></i>
+            <div class="navigation-trigger d-xl-none" data-sa-action="aside-open" data-sa-target=".sidebar">
+                <i class="zwicon-hamburger-menu"></i>
             </div>
         </header>
         <aside class="sidebar">
-            <div class="scrollbar">
+            <scrollbar>
                 <div class="user">
                     <div class="user__info">
                         <img class="user__img" src="/img/users/default_user.png">
@@ -22,7 +22,7 @@
                         <i class="zwicon-layer-stack"></i> Projetos
                     </menu-item>
                 </ul>
-            </div>
+            </scrollbar>
         </aside>
     </div>
 </template>

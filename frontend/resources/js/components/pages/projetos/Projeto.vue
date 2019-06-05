@@ -1,73 +1,57 @@
 <template>
-	<div class="container">
-		<div class="row">
-			<div class="card">
-				<div class="card-content">
-					<h2 v-if="$route.params.id">Editar Projeto</h2>
-					<h2 v-else>Criar Projeto</h2>
+	<div class="card">
+		<div class="card-body">
+			<h2 v-if="$route.params.id">Editar Projeto</h2>
+			<h2 v-else>Criar Projeto</h2>
+
+			<div>
+				<ajax-form v-if="ready" action="/projetos/salvar" method="POST" @beforeSubmit="beforeSubmit" @success="onSuccess">
+					<div class="row">
+						<validation class="form-group col col-12" :rules="['required']" v-slot="{ error }">
+							<label>Nome</label>
+							<input v-model="nome" name="nome" type="text" :class="{'form-control': true, 'is-invalid': error}">
+							<div class="invalid-tooltip">{{ error }}</div>
+						</validation>
+
+						<validation class="form-group col col-12" :rules="['required']" v-slot="{ error }">
+							<label>Descrição</label>
+							<v-textarea v-model="descricao" name="descricao"></v-textarea>
+<!--							<textarea v-model="descricao" name="descricao" :class="{'form-control': true, 'is-invalid': error}"></textarea>-->
+							<div class="invalid-tooltip">{{ error }}</div>
+						</validation>
+
+						<div class="form-group col col-12">
+							<label :class="usuarios.length ? 'active' : ''">Usuários</label>
+							<base-select-search v-model="usuarios" :options="usuariosPossiveis" valueVar="id" textVar="nome" multiple></base-select-search>
+						</div>
+					</div>
 
 					<div>
-						<ajax-form v-if="ready" action="/projetos/salvar" method="POST" @beforeSubmit="beforeSubmit" @success="onSuccess">
-							<div class="row">
-								<validation class="input-field col l12" :rules="['required']" v-slot="{ error }">
-									<label>Nome</label>
-									<input v-model="nome" name="nome" type="text" :class="{ 'invalid': error }">
-									<span class="helper-text" style="min-height: 5px;" :data-error="error"></span>
-								</validation>
+						<button v-if="$route.params.id" type="button" class="btn btn-danger float-left" @click="deletar">
+							Excluir
+						</button>
+
+						<button class="btn btn-success float-right ml-3">
+							Salvar
+						</button>
+
+						<router-link to="/projetos/listar" class="btn btn-theme float-right">
+							Cancelar
+						</router-link>
+					</div>
+				</ajax-form>
+
+				<div class="spinner-wrapper" v-else>
+					<div class="preloader-wrapper big active">
+						<div class="spinner-layer spinner-blue-only">
+							<div class="circle-clipper left">
+								<div class="circle"></div>
 							</div>
-
-							<div class="row">
-								<validation class="input-field col l12" :rules="['required']" v-slot="{ error }">
-									<label>Descrição</label>
-									<textarea v-model="descricao" name="descricao" :class="{'materialize-textarea': true, 'invalid': error}" />
-									<span class="helper-text" style="min-height: 10px;" :data-error="error"></span>
-								</validation>
+							<div class="gap-patch">
+								<div class="circle"></div>
 							</div>
-
-							<div class="row">
-								<div class="input-field col l12">
-									<label :class="usuarios.length ? 'active' : ''">Usuários</label>
-									<select ref="usuarios" v-model="usuarios" name="usuarios" multiple>
-										<template v-if="usuariosPossiveis.length">
-											<option v-for="usuario in usuariosPossiveis" :value="usuario.id">{{ usuario.nome }}</option>
-										</template>
-										<template v-else>
-											<option disabled>Nenhum usuário disponível</option>
-										</template>
-									</select>
-								</div>
-							</div>
-
-							<div class="row" style="margin-top: 20px;">
-								<button v-if="$route.params.id" type="button" class="white-text waves-effect btn-small red darken-3 left" @click="deletar">
-									Excluir
-								</button>
-
-								<button class="white-text waves-effect btn-small green darken-1 right">
-									Salvar
-								</button>
-
-								<router-link to="/projetos/listar">
-									<a class="white-text waves-effect btn-small red darken-1 right" style="margin-right: 10px;">
-										Cancelar
-									</a>
-								</router-link>
-							</div>
-						</ajax-form>
-
-						<div class="spinner-wrapper" v-else>
-							<div class="preloader-wrapper big active">
-								<div class="spinner-layer spinner-blue-only">
-									<div class="circle-clipper left">
-										<div class="circle"></div>
-									</div>
-									<div class="gap-patch">
-										<div class="circle"></div>
-									</div>
-									<div class="circle-clipper right">
-										<div class="circle"></div>
-									</div>
-								</div>
+							<div class="circle-clipper right">
+								<div class="circle"></div>
 							</div>
 						</div>
 					</div>

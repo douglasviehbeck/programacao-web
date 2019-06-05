@@ -97,7 +97,7 @@
                 return proceed;
 			},
             findElement: function (vnode = this._vnode) {
-                var tags = ['input', 'textarea', 'select', 'm-text-field'];
+                var tags = ['input', 'v-textarea', 'select', 'm-text-field'];
 
                 var element = null;
 
@@ -120,7 +120,7 @@
 			findName: function (vnode) {
                 var element = this.findElement(vnode._vnode);
 
-                return (element.data.domProps || element.data.attrs || element.componentOptions.propsData).name;
+                return (element.data.attrs || element.data.domProps || element.componentOptions.propsData).name;
             },
 		}
     }

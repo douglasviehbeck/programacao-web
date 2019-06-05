@@ -1,43 +1,40 @@
 <template>
 	<div>
-		<header class="content__title">
-			<h1>Projetos</h1>
-
-			<div class="actions">
-				<router-link to="/projetos/criar" class="btn btn-theme-dark zwicon-plus">
-					Adicionar
-				</router-link>
-			</div>
-		</header>
 		<div class="card">
 			<div class="card-body">
-				<div>
-					<fade-transition>
-						<div v-if="ready">
-							<table class="table table-dark table-hover">
-								<thead class="thead-dark">
-									<tr>
-										<th>Nome</th>
-										<th>Criador</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr v-if="!projetos.length">
-										<td colspan="2" class="text-center">
-											Parece que você não participa de nenhum projeto...
-										</td>
-									</tr>
-									<tr v-for="projeto in projetos" @click="$router.push(`/projetos/editar/${projeto.id}`)" style="cursor: pointer;">
-										<td>{{ projeto.nome }}</td>
-										<td>{{ projeto.criador }}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+				<header class="content__title">
+					<h1>Projetos</h1>
+					<div class="actions d-block" style="top: unset;">
+						<router-link to="/projetos/criar" class="btn btn-theme-dark zwicon-plus">
+							Adicionar
+						</router-link>
+					</div>
+				</header>
+				<fade-transition>
+					<div v-if="ready">
+						<table class="table table-dark table-hover">
+							<thead class="thead-dark">
+								<tr>
+									<th>Nome</th>
+									<th>Criador</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-if="!projetos.length">
+									<td colspan="2" class="text-center">
+										Parece que você não participa de nenhum projeto...
+									</td>
+								</tr>
+								<tr v-for="projeto in projetos" @click="$router.push(`/projetos/editar/${projeto.id}`)" style="cursor: pointer;">
+									<td>{{ projeto.nome }}</td>
+									<td>{{ projeto.criador }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 
-						<loader v-else></loader>
-					</fade-transition>
-				</div>
+					<loader v-else></loader>
+				</fade-transition>
 			</div>
 		</div>
 	</div>
