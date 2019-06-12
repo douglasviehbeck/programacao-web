@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<navbar></navbar>
-		<section class="content content--full">
+		<projeto-navigation></projeto-navigation>
+		<section class="content">
 			<div class="content__inner">
 				<fade-transition mode="out-in" :duration="100">
 					<router-view />

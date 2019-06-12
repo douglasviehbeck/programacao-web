@@ -1,5 +1,5 @@
 <template>
-    <select class="form-control select2" :value="value" v-bind="$attrs"></select>
+    <select class="form-control select2" v-bind="$attrs"></select>
 </template>
 
 <script>
@@ -14,7 +14,7 @@
                     data: this.getOptions()
                 }).val(this.value).trigger('change')
                 .on('change', function () {
-                    vm.$emit('input', this.value);
+                    vm.$emit('input', $(this).val());
                 });
             });
         },
@@ -22,19 +22,25 @@
             value: function (value) {
                 var change = false;
 
-                this.options.forEach((option) => {
-                    var opValue = undefined;
+                var isMultiple = typeof this.$attrs.multiple !== "undefined";
 
-                    if (this.valueVar) {
-                        opValue = option[this.valueVar];
-                    } else {
-                        opValue = option;
-                    }
+                if (!isMultiple) {
+                    this.options.forEach((option) => {
+                        var opValue = undefined;
 
-                    if (opValue == value) {
-                        change = true;
-                    }
-                });
+                        if (this.valueVar) {
+                            opValue = option[this.valueVar];
+                        } else {
+                            opValue = option;
+                        }
+
+                        if (opValue == value) {
+                            change = true;
+                        }
+                    });
+                } else if ([...value].sort().join(',') !== [...$(this.$el).val()].sort().join(',')) {
+                    change = true;
+                }
 
                 if (change) {
                     $(this.$el)

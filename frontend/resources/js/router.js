@@ -1,5 +1,4 @@
 import VueRouter from 'vue-router';
-import DefaultLayout from './components/template/DefaultLayout';
 
 Vue.use(VueRouter);
 
@@ -11,7 +10,7 @@ const routes = [
     },
     {
         path: '',
-        component: DefaultLayout,
+        component: Vue.component('default-layout'),
         children: [
             {
                 name: 'projetos.listar',
@@ -23,13 +22,24 @@ const routes = [
                 name: 'projetos.criar',
                 path: '/projetos/criar',
                 component: Vue.component('projeto'),
-                meta: { menu: 'projetos.listar' },
             },
+        ],
+    },
+    {
+        path: '',
+        component: Vue.component('projeto-layout'),
+        children: [
             {
                 name: 'projetos.editar',
-                path: '/projetos/editar/:id',
+                path: '/projetos/:id/editar',
                 component: Vue.component('projeto'),
-                meta: { menu: 'projetos.listar' },
+                meta: { menu: 'projetos.editar' },
+            },
+            {
+                name: 'projetos.tarefas',
+                path: '/projetos/:id/tarefas',
+                component: Vue.component('projeto'),
+                meta: { menu: 'projetos.tarefas' },
             },
         ],
     },
@@ -53,8 +63,7 @@ if (localStorage.getItem('authToken')) {
 }
 
 axios.interceptors.response.use(response => response, (error) => {
-
-    if (error.request.status) {
+    if (error.request.status === 401) {
         localStorage.removeItem('authToken');
         sessionStorage.setItem('intended', router.currentRoute.fullPath);
         router.push('/login');

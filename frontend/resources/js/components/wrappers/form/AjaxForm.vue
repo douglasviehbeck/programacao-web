@@ -33,7 +33,7 @@
                     var values = {};
 
                     $(this.$el).serializeArray().forEach((field) => {
-						values[field.name] = field.value;
+						values[field.name] = $(this.$el).find('[name="' + field.name + '"]').val();
 					});
 
                     this.$emit('beforeSubmit', values);

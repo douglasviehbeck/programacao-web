@@ -17,6 +17,9 @@ window.Vue = Vue;
 const files = require.context('./components', true, /\.vue$/i);
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0].split(/(?=[A-Z])/).join('-').toLowerCase(), files(key).default));
 
+const plugins = require.context('./plugins', true, /\.js/i);
+plugins.keys().map(key => Vue.use(plugins(key).default));
+
 const app = new Vue({
     el: '#app',
     router: require('./router').default,

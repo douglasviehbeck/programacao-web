@@ -1,6 +1,8 @@
 <?php
 
-Route::get('/projetos', 'ProjetosController@projetos');
-Route::get('/projetos/dados/{projeto?}', 'ProjetosController@dados');
-Route::post('/projetos/salvar', 'ProjetosController@salvar');
-Route::post('/projetos/deletar/{projeto}', 'ProjetosController@deletar');
+Route::group(['prefix' => '/projetos'], function () {
+    Route::get('', 'ProjetoController@index');
+    Route::get('/{projeto}', 'ProjetoController@mostrar');
+    Route::post('/salvar', 'ProjetoController@salvar');
+    Route::post('/deletar/{projeto}', 'ProjetoController@deletar');
+});

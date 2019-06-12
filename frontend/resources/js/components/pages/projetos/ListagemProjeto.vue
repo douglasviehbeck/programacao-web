@@ -10,30 +10,29 @@
 						</router-link>
 					</div>
 				</header>
-				<fade-transition>
-					<div v-if="ready">
-						<table class="table table-dark table-hover">
-							<thead class="thead-dark">
-								<tr>
-									<th>Nome</th>
-									<th>Criador</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-if="!projetos.length">
-									<td colspan="2" class="text-center">
-										Parece que você não participa de nenhum projeto...
-									</td>
-								</tr>
-								<tr v-for="projeto in projetos" @click="$router.push(`/projetos/editar/${projeto.id}`)" style="cursor: pointer;">
-									<td>{{ projeto.nome }}</td>
-									<td>{{ projeto.criador }}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
 
-					<loader v-else></loader>
+				<endpoint-list endpoint="/projetos" @beforeSearch="loading = true" @afterSearch="loading = false" paginate changeUrl>
+					<template v-slot:header>
+						<tr>
+							<th style="width: 50%;">Nome</th>
+							<th style="width: 50%;">Criador</th>
+						</tr>
+					</template>
+					<template v-slot:empty-message>
+						<td colspan="2" class="text-center">
+							Parece que você não participa de nenhum projeto...
+						</td>
+					</template>
+					<template v-slot:row="{ row }">
+						<tr @click="$router.push({name: 'projetos.editar', params: {id: row.id}})" style="cursor: pointer;">
+							<td>{{ row.nome }}</td>
+							<td>{{ row.criador }}</td>
+						</tr>
+					</template>
+				</endpoint-list>
+
+				<fade-transition>
+					<loader v-if="loading"></loader>
 				</fade-transition>
 			</div>
 		</div>
@@ -45,24 +44,9 @@
         name: 'ListagemProjeto',
 		data: function () {
 			return {
-				ready: false,
-				projetos: [],
+				loading : true,
 			};
         },
-		mounted: function () {
-			this.carregarProjetos();
-        },
-		methods: {
-			carregarProjetos: function () {
-                this.ready = false;
-
-                axios.get('/projetos').then((projetos) => {
-                    this.projetos = projetos.data;
-
-                    this.ready = true;
-                });
-            },
-        }
     }
 </script>
 

@@ -51,7 +51,7 @@
 
                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('authToken');
 
-				this.$router.push(sessionStorage.getItem('intended') || '/');
+				this.$router.push(sessionStorage.getItem('intended') || '/projetos/listar');
 
                 sessionStorage.removeItem('intended');
             },

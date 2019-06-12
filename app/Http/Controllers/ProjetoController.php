@@ -8,20 +8,29 @@ use App\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ProjetosController extends Controller
+class ProjetoController extends Controller
 {
-    public function projetos()
+    public function index()
     {
-        return Projeto::with('criador')->orderBy('nome')->get()->map(function ($projeto) {
+        $projetos = Projeto::with('criador')
+            ->where('usuarioId', '=', Auth::user()->usuarioId)
+            ->orWhereHas('usuarios', function ($query) {
+                $query->where('usuarios.usuarioId', '=', Auth::user()->usuarioId);
+            })
+            ->orderBy('nome')->paginate(10);
+
+        $projetos->getCollection()->transform(function ($projeto) {
             return [
                 'id' => $projeto->projetoId,
                 'nome' => $projeto->nome,
                 'criador' => $projeto->criador->nome,
             ];
         });
+
+        return $projetos;
     }
 
-    public function dados(Projeto $projeto)
+    public function mostrar(Projeto $projeto)
     {
         $projeto = $projeto->load(['usuarios' => function ($query) {
             $query->select('usuarios.usuarioId as id');
@@ -51,8 +60,6 @@ class ProjetosController extends Controller
         }
 
         $projeto->save();
-
-        $projeto->usuarios()->sync($request->usuarios);
 
         return $projeto->only(['projetoId', 'nome', 'descricao']);
     }

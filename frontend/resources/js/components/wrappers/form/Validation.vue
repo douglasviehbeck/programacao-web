@@ -58,7 +58,7 @@
                 return true;
             },
 			findElement: function () {
-                var tags = ['input', 'textarea', 'select', 'm-text-field'];
+                var tags = ['input', 'textarea', 'select', 'v-textarea'];
 
                 var element = null;
 
