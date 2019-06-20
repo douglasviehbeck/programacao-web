@@ -3,12 +3,29 @@ import Vue from 'vue';
 
 require('./bootstrap');
 
+import 'toastr/toastr.scss';
+
+var toastr = require('toastr');
+
 Vue.prototype.$rules = require('./rules').default;
 Vue.prototype.$flashMessages = {messages: []};
-Vue.prototype.$flash = function (type, message) {
-    Vue.prototype.$flashMessages.messages.push({
-        type,
-        message,
+Vue.prototype.$flash = function (type, message, title) {
+    return new Promise((resolve) => {
+        toastr.options = {
+            progressBar: true,
+            positionClass: 'toast-top-right',
+            onclick: resolve,
+            showDuration: '300',
+            hideDuration: '1000',
+            timeOut: '5000',
+            extendedTimeOut: '1000',
+            showEasing: 'swing',
+            hideEasing: 'linear',
+            showMethod: 'fadeIn',
+            hideMethod: 'fadeOut',
+        };
+
+        toastr[type](message, title);
     });
 };
 

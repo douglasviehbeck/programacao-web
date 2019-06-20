@@ -21,3 +21,11 @@ input.is-invalid {
     display: inline-block;
     animation: spin 1s infinite linear;
 }
+
+.toast-top-right {
+    top: 84px;
+}
+
+.toast-message {
+    font-size: 1.1rem;
+}

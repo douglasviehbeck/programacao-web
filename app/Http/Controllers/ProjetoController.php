@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ProjetoController extends Controller
 {
-    public function index()
+    public function getProjetos()
     {
         $projetos = Projeto::with('criador')
             ->where('usuarioId', '=', Auth::user()->usuarioId)
@@ -30,21 +30,14 @@ class ProjetoController extends Controller
         return $projetos;
     }
 
-    public function mostrar(Projeto $projeto)
+    public function getProjeto(Projeto $projeto)
     {
-        $projeto = $projeto->load(['usuarios' => function ($query) {
-            $query->select('usuarios.usuarioId as id');
-        }])->only(['nome', 'descricao', 'usuarios']);
-
-        $projeto['usuarios'] = $projeto['usuarios']->map->id;
-
         return [
-            'usuarios' => Usuario::where('usuarioId', '<>', Auth::user()->usuarioId)->get(['usuarioId as id', 'nome']),
-            'projeto' => $projeto,
+            'projeto' => $projeto->only(['nome', 'descricao']),
         ];
     }
 
-    public function salvar(Request $request)
+    public function postProjeto(Request $request)
     {
         $this->validarProjeto($request->all());
 
@@ -61,10 +54,14 @@ class ProjetoController extends Controller
 
         $projeto->save();
 
+        if ($projeto->wasRecentlyCreated) {
+            $projeto->usuarios()->attach(Auth::user());
+        }
+
         return $projeto->only(['projetoId', 'nome', 'descricao']);
     }
 
-    public function deletar(Projeto $projeto)
+    public function deleteProjeto(Projeto $projeto)
     {
         $projeto->usuariosProjeto()->delete();
         $projeto->delete();

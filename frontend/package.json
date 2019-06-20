@@ -25,6 +25,7 @@
         "vue-router": "^3.0.6"
     },
     "dependencies": {
-        "materialize-css": "^1.0.0"
+        "materialize-css": "^1.0.0",
+        "toastr": "^2.1.4"
     }
 }

@@ -22,11 +22,11 @@ class Projeto extends Model
 
     public function usuariosProjeto()
     {
-        return $this->hasMany(ProjetoUsuario::class, 'projetoId', 'projetoId');
+        return $this->hasMany(UsuarioProjeto::class, 'projetoId', 'projetoId');
     }
 
     public function usuarios()
     {
-        return $this->belongsToMany(Usuario::class, 'projetosUsuarios', 'projetoId', 'usuarioId', 'projetoId', 'usuarioId');
+        return $this->belongsToMany(Usuario::class, 'projetosUsuarios', 'projetoId', 'usuarioId', 'projetoId', 'usuarioId')->withPivot('created_at as dataPermissao')->withTimestamps();
     }
 }

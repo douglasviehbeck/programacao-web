@@ -13,6 +13,11 @@ class Usuario extends Model implements \Illuminate\Contracts\Auth\Authenticatabl
 
     protected $primaryKey = 'usuarioId';
 
+    public function projetos()
+    {
+        return $this->belongsToMany(Projeto::class, 'projetosUsuarios', 'usuarioId', 'projetoId', 'usuarioId', 'projetoId')->withTimestamps();
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
