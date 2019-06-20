@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  mariadb:
+    image: mariadb:10.3-bionic
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_DATABASE=programacao_web
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
+
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "12120:80"
+      - "12121:81"
