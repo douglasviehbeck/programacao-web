@@ -5,8 +5,6 @@ RUN apt-get install --no-install-recommends apt-utils -y
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get install openssh-server -y
-
 RUN apt-get install libxml2-dev -y
 RUN apt-get install zlib1g-dev -y
 RUN docker-php-ext-install pdo_mysql dom json zip mbstring
@@ -22,8 +20,5 @@ RUN mv composer.phar /usr/local/bin/composer
 RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -
 
 RUN apt-get install nodejs -y
-
-RUN systemctl enable ssh
-RUN systemctl start ssh
 
 CMD (cd /var/www; php -S 0.0.0.0:81 public/index.php) & (cd /var/www/frontend; php -S 0.0.0.0:80 public/index.php)
