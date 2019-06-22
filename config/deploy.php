@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => 'upload',
+    'default' => 'basic',
 
     /*
     |--------------------------------------------------------------------------
@@ -56,20 +56,22 @@ return [
         
         // Deployment is done but not live yet (before symlink)
         'ready' => [
-            //
+            'artisan:storage:link',
+            'artisan:view:clear',
+            'artisan:cache:clear',
+            'artisan:config:cache',
+            'artisan:migrate',
+            'npm:run',
         ],
         
         // Deployment is done and live
         'done' => [
+            //
         ],
         
         // Deployment succeeded.
         'success' => [
-            'docker:restart',
-            'copy:env:frontend',
-            'artisan:prepare:docker',
-//            'npm:install:frontend',
-//            'npm:run:frontend',
+            //
         ],
         
         // Deployment failed.
@@ -107,11 +109,11 @@ return [
 
     'hosts' => [
         'pweb.devel' => [
-            'deploy_path' => '~/docker-compose/devel/programacao-web',
+            'deploy_path' => '/var/www/html/devel/programacao-web',
             'user' => 'douglas',
         ],
         'pweb.prod' => [
-            'deploy_path' => '~/docker-compose/prod/programacao-web',
+            'deploy_path' => '/var/www/html/prod/programacao-web',
             'user' => 'douglas',
         ],
     ],
