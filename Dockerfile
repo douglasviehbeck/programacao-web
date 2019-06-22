@@ -23,4 +23,4 @@ RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -
 
 RUN apt-get install nodejs -y
 
-CMD php -S 0.0.0.0:80 public/index.php & cd frontend; php -S 0.0.0.0:81 public/index.php
+CMD (cd /var/www; php -S 0.0.0.0:81 public/index.php) & (cd /var/www/frontend; php -S 0.0.0.0:80 public/index.php)
