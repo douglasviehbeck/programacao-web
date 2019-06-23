@@ -95,7 +95,7 @@ phpunit:
   [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.s
 
 
-staging:
+development:
   stage: deploy
 
   script:
@@ -108,3 +108,18 @@ staging:
 
   only:
     - devel
+
+
+production:
+  stage: deploy
+
+  script:
+    - *init_ssh
+    - php artisan deploy pweb.prod -s upload
+
+  environment:
+    name: staging
+    url: http://pweb.prod
+
+  only:
+    - master
