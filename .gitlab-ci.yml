@@ -1,3 +1,13 @@
+before_script:
+  - apt-get update -qq
+  - apt-get install -qq git
+  # Setup SSH deploy keys
+  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
 # The job's name.
 composer:
 
@@ -87,19 +97,19 @@ phpunit:
     - ls
 
 
-.init_ssh: &init_ssh |
-  eval $(ssh-agent -s)
-  echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-  mkdir -p ~/.ssh
-  chmod 700 ~/.ssh
-  [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.s
+#.init_ssh: &init_ssh |
+#  eval $(ssh-agent -s)
+#  echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+#  mkdir -p ~/.ssh
+#  chmod 700 ~/.ssh
+#  [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.s
 
 
 development:
   stage: deploy
 
   script:
-    - *init_ssh
+#    - *init_ssh
     - php artisan deploy pweb.devel -s upload
 
   environment:
@@ -110,19 +120,19 @@ development:
     - devel
 
 
-.init_ssh_prod: &init_ssh_prod |
-  eval $(ssh-agent -s)
-  echo "$SSH_PRIVATE_KEY_PROD" | tr -d '\r' | ssh-add - > /dev/null
-  mkdir -p ~/.ssh
-  chmod 700 ~/.ssh
-  [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.s
+#.init_ssh_prod: &init_ssh_prod |
+#  eval $(ssh-agent -s)
+#  echo "$SSH_PRIVATE_KEY_PROD" | tr -d '\r' | ssh-add - > /dev/null
+#  mkdir -p ~/.ssh
+#  chmod 700 ~/.ssh
+#  [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.s
 
 
 production:
   stage: deploy
 
   script:
-    - *init_ssh_prod
+#    - *init_ssh_prod
     - php artisan deploy pweb.prod -s upload
 
   environment:
