@@ -3,7 +3,7 @@
 		<div class="card">
 			<div class="card-body">
 				<header class="content__title">
-					<h1>Projetos</h1>
+					<h1>Seus Projetos</h1>
 					<div class="actions d-block" style="top: unset;">
 						<router-link to="/projetos/criar" class="btn btn-theme-dark zwicon-plus">
 							Adicionar
