@@ -2,6 +2,8 @@
 
 namespace Deployer;
 
+set('http_user', 'www-data');
+
 task('artisan:migrate', function () {
     run('php {{release_path}}/artisan migrate');
 });

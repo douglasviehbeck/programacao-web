@@ -51,65 +51,56 @@ composer:
   only:
     - devel
     - master
-#
-#
-#npm:
-#
-#  # Same stage as `composer` so that they run in parallel.
-#  stage: build
-#
-#  # Cache the `node_modules` folder
-#  # using the `npm` suffix on the key.
-#  cache:
-#    key: ${CI_COMMIT_REF_SLUG}-npm
-#    paths:
-#      - frontend/node_modules/
-#
-#  before_script:
-#    - cd frontend/
-#
-#  # Install and compile.
-#  script:
-#    - npm install
-#    - npm run production
-#
-#  # Provide the other jobs of the pipeline with
-#  # the node dependencies and the compiled assets.
-#  artifacts:
-#    expire_in: 1 month
-#    paths:
-#      - node_modules/
-#      - public/css/
-#      - public/js/
-#
-#  only:
-#    - devel
-#    - master
-
-#phpunit:
-#  stage: test
-#
-#  # List of jobs from which it will download the artifacts.
-#  dependencies:
-#    - composer
-#
-#  script:
-#    - ls
 
 
-#.init_ssh: &init_ssh |
-#  eval $(ssh-agent -s)
-#  echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-#  mkdir -p ~/.ssh
-#  chmod 700 ~/.ssh
-#  [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.s
+npm:
+
+  # Same stage as `composer` so that they run in parallel.
+  stage: build
+
+  # Cache the `node_modules` folder
+  # using the `npm` suffix on the key.
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-npm
+    paths:
+      - frontend/node_modules/
+
+  before_script:
+    - cd frontend/
+
+  # Install and compile.
+  script:
+    - npm install
+    - npm run production
+
+  # Provide the other jobs of the pipeline with
+  # the node dependencies and the compiled assets.
+  artifacts:
+    expire_in: 1 month
+    paths:
+      - node_modules/
+      - public/css/
+      - public/js/
+
+  only:
+    - devel
+    - master
+
+phpunit:
+  stage: test
+
+  # List of jobs from which it will download the artifacts.
+  dependencies:
+    - composer
+
+  script:
+    - ls
 
 
 development:
   stage: deploy
 
   script:
-#    - *init_ssh
     - php artisan deploy pweb.devel -s upload
 
   environment:
@@ -120,19 +111,10 @@ development:
     - devel
 
 
-#.init_ssh_prod: &init_ssh_prod |
-#  eval $(ssh-agent -s)
-#  echo "$SSH_PRIVATE_KEY_PROD" | tr -d '\r' | ssh-add - > /dev/null
-#  mkdir -p ~/.ssh
-#  chmod 700 ~/.ssh
-#  [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.s
-
-
 production:
   stage: deploy
 
   script:
-#    - *init_ssh_prod
     - php artisan deploy pweb.prod -s upload
 
   environment:
