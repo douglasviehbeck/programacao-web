@@ -110,11 +110,19 @@ development:
     - devel
 
 
+.init_ssh_prod: &init_ssh_prod |
+  eval $(ssh-agent -s)
+  echo "$SSH_PRIVATE_KEY_PROD" | tr -d '\r' | ssh-add - > /dev/null
+  mkdir -p ~/.ssh
+  chmod 700 ~/.ssh
+  [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.s
+
+
 production:
   stage: deploy
 
   script:
-    - *init_ssh
+    - *init_ssh_prod
     - php artisan deploy pweb.prod -s upload
 
   environment:
