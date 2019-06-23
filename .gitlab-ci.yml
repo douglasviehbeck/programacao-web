@@ -5,48 +5,48 @@ before_script:
   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
 
 # The job's name.
-#composer:
-#
-#  # The job's stage (build, test or deploy).
-#  stage: build
-#
-#  # What to run on the job.
-#  script:
-#    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-#    - cp .env.example .env
-#    - php artisan key:generate
-#    - php artisan migrate
-#    - php artisan route:cache
-#    - php artisan config:cache
-#
-#  artifacts:
-#
-#    # (Optional) Give it an expiration date,
-#    # after that period you won't be able to
-#    # download them via the UI anymore.
-#    expire_in: 1 month
-#
-#    # Define what to output from the job.
-#    paths:
-#      - vendor/
-#      - .env
-#
-#  cache:
-#
-#    # The variable CI_COMMIT_REF_SLUG
-#    # refers to the slug of the branch.
-#    # For example: `master` for the master branch.
-#    # We use the `composer` suffix to avoid conflicts with
-#    # the `npm` cache that we'll define next.
-#    key: ${CI_COMMIT_REF_SLUG}-composer
-#
-#    # Define what to cache.
-#    paths:
-#      - vendor/
-#
-#  only:
-#    - devel
-#    - master
+composer:
+
+  # The job's stage (build, test or deploy).
+  stage: build
+
+  # What to run on the job.
+  script:
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+    - cp .env.example .env
+    - php artisan key:generate
+    - php artisan migrate
+    - php artisan route:cache
+    - php artisan config:cache
+
+  artifacts:
+
+    # (Optional) Give it an expiration date,
+    # after that period you won't be able to
+    # download them via the UI anymore.
+    expire_in: 1 month
+
+    # Define what to output from the job.
+    paths:
+      - vendor/
+      - .env
+
+  cache:
+
+    # The variable CI_COMMIT_REF_SLUG
+    # refers to the slug of the branch.
+    # For example: `master` for the master branch.
+    # We use the `composer` suffix to avoid conflicts with
+    # the `npm` cache that we'll define next.
+    key: ${CI_COMMIT_REF_SLUG}-composer
+
+    # Define what to cache.
+    paths:
+      - vendor/
+
+  only:
+    - devel
+    - master
 #
 #
 #npm:
