@@ -4,7 +4,7 @@
 			<div class="card">
 				<div class="card-body">
 					<header class="content__title">
-						<h1 v-if="$route.params.id">Editar Projeto</h1>
+						<h1 v-if="$route.params.projeto">Editar Projeto</h1>
 						<h1 v-else>Novo Projeto</h1>
 					</header>
 
@@ -25,7 +25,7 @@
 							</div>
 
 							<div>
-								<button v-if="$route.params.id" type="button" class="btn btn-danger float-left" @click="deletar">
+								<button v-if="$route.params.projeto" type="button" class="btn btn-danger float-left" @click="deletar">
 									Excluir
 								</button>
 
@@ -46,7 +46,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="this.$route.params.id">
+		<div v-if="this.$route.params.projeto">
 			<div class="card">
 				<div class="card-body">
 					<header class="content__title">
@@ -58,7 +58,7 @@
 						</div>
 					</header>
 
-					<lookup ref="usuarioLookup" :endpoint="'/projetos/' + $route.params.id + '/usuarios/lookup'" campo="nome" @select="adicionarUsuario">
+					<lookup ref="usuarioLookup" :endpoint="'/projetos/' + $route.params.projeto + '/usuarios/lookup'" campo="nome" @select="adicionarUsuario">
 						<template v-slot:header>
 							<h1>Novo Usuário do Projeto</h1>
 						</template>
@@ -72,7 +72,7 @@
 						</template>
 					</lookup>
 
-					<endpoint-list ref="tabelaUsuarios" :endpoint="'/projetos/' + $route.params.id + '/usuarios'" @beforeSearch="loadingUsuarios = true" @afterSearch="loadingUsuarios = false" paginate>
+					<endpoint-list ref="tabelaUsuarios" :endpoint="'/projetos/' + $route.params.projeto + '/usuarios'" @beforeSearch="loadingUsuarios = true" @afterSearch="loadingUsuarios = false" paginate>
 						<template v-slot:header>
 							<tr>
 								<th style="width: 30%;">Username</th>
@@ -102,7 +102,7 @@
     export default {
         name: 'Projeto',
 		data: function () {
-            var loading = typeof this.$route.params.id !== 'undefined';
+            var loading = typeof this.$route.params.projeto !== 'undefined';
 
 			return {
 				loadingProjeto: loading,
@@ -112,43 +112,29 @@
 			};
         },
 		mounted: function () {
-            if (this.$route.params.id) {
-                this.carregarDados();
+            if (this.$global.state.projeto) {
+                this.loadingProjeto = false;
+
+				this.nome = this.$global.state.projeto.nome;
+				this.descricao = this.$global.state.projeto.descricao;
             }
         },
 		methods: {
-            carregarDados: function () {
-				this.loadingProjeto = true;
-
-				axios.get('/projetos/' + this.$route.params.id).then((res) => {
-					if (res.data.projeto) {
-						this.nome = res.data.projeto.nome;
-						this.descricao = res.data.projeto.descricao;
-					}
-
-					this.loadingProjeto = false;
-				}).catch((error) => {
-					if (error.response.status === 404) {
-						this.$flash('error', 'Este registro não existe');
-						this.$router.push('/projetos/listar');
-					}
-				});
-            },
             beforeSubmit: function (params) {
                 this.loadingProjeto = true;
 
-                params['projeto'] = this.$route.params.id;
+                params['projeto'] = this.$route.params.projeto;
             },
 			onSuccess: function (res) {
                 this.$flash('success', 'Projeto salvo com sucesso!');
-                this.$router.push({name: 'projetos.editar', params: {id: res.data.projetoId}});
+                this.$router.push({name: 'projetos.editar', params: {projeto: res.data.projetoId}});
             },
 			deletar: function () {
                 this.$confirm().then((result) => {
                     if (result.value) {
                         this.loadingProjeto = true;
 
-                        axios.post('/projetos/deletar/' + this.$route.params.id).then((res) => {
+                        axios.post('/projetos/deletar/' + this.$route.params.projeto).then((res) => {
                             this.$flash('success', 'Projeto excluído com sucesso!');
                             this.$router.push('/projetos/listar');
                         }).catch(() => {
@@ -160,20 +146,30 @@
 			adicionarUsuario: function (usuario) {
                 this.loadingUsuarios = true;
 
-				axios.post('/projetos/' + this.$route.params.id + '/usuarios/salvar', {
+				axios.post('/projetos/' + this.$route.params.projeto + '/usuarios/salvar', {
 				    usuario: usuario.usuarioId,
 				}).then(() => this.$refs['tabelaUsuarios'].get());
             },
             removerUsuario: function (usuario) {
                 this.loadingUsuarios = true;
 
-                axios.post('/projetos/' + this.$route.params.id + '/usuarios/deletar/' + usuario.usuarioId).then(() => this.$refs['tabelaUsuarios'].get());
+                axios.post('/projetos/' + this.$route.params.projeto + '/usuarios/deletar/' + usuario.usuarioId).then(() => this.$refs['tabelaUsuarios'].get());
             },
         },
 		computed: {
             loading: function () {
                 return this.loadingProjeto || this.loadingUsuarios;
 			},
+		},
+		watch: {
+            '$global.state.projeto': function (projeto) {
+				this.loadingProjeto = !projeto;
+
+				if (projeto) {
+                    this.nome = projeto.nome;
+                    this.descricao = projeto.descricao;
+                }
+            },
 		},
     }
 </script>

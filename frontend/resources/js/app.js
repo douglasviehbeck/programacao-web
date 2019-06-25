@@ -29,6 +29,8 @@ Vue.prototype.$flash = function (type, message, title) {
     });
 };
 
+Vue.prototype.$global = require('./state').default;
+
 window.Vue = Vue;
 
 const files = require.context('./components', true, /\.vue$/i);

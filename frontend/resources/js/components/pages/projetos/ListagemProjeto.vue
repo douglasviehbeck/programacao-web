@@ -24,7 +24,7 @@
 						</td>
 					</template>
 					<template v-slot:row="{ row }">
-						<tr @click="$router.push({name: 'projetos.editar', params: {id: row.id}})" style="cursor: pointer;">
+						<tr @click="$router.push({name: 'projetos.tarefas', params: {projeto: row.id}})" style="cursor: pointer;">
 							<td>{{ row.nome }}</td>
 							<td>{{ row.criador }}</td>
 						</tr>

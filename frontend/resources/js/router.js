@@ -31,14 +31,26 @@ const routes = [
         children: [
             {
                 name: 'projetos.editar',
-                path: '/projetos/:id/editar',
+                path: '/projetos/:projeto/editar',
                 component: Vue.component('projeto'),
                 meta: { menu: 'projetos.editar' },
             },
             {
                 name: 'projetos.tarefas',
-                path: '/projetos/:id/tarefas',
-                component: Vue.component('projeto'),
+                path: '/projetos/:projeto/tarefas',
+                component: Vue.component('listagem-tarefa'),
+                meta: { menu: 'projetos.tarefas' },
+            },
+            {
+                name: 'projetos.tarefas.criar',
+                path: '/projetos/:projeto/tarefas/criar',
+                component: Vue.component('tarefa'),
+                meta: { menu: 'projetos.tarefas' },
+            },
+            {
+                name: 'projetos.tarefas.editar',
+                path: '/projetos/:projeto/tarefas/:tarefa/editar',
+                component: Vue.component('tarefa'),
                 meta: { menu: 'projetos.tarefas' },
             },
         ],

@@ -29,4 +29,9 @@ class Projeto extends Model
     {
         return $this->belongsToMany(Usuario::class, 'projetosUsuarios', 'projetoId', 'usuarioId', 'projetoId', 'usuarioId')->withPivot('created_at as dataPermissao')->withTimestamps();
     }
+
+    public function tarefas()
+    {
+        return $this->hasMany(Tarefa::class, 'projetoId', 'projetoId');
+    }
 }

@@ -2,11 +2,9 @@
 	<aside class="sidebar">
 		<scrollbar>
 			<div class="user">
-				<div class="user__info">
-					<img class="user__img" src="/img/users/default_user.png">
+				<div class="user__info" v-if="$global.state.projeto">
 					<div>
-						<div class="user__name">John Doe</div>
-						<div class="user__email">john.doe@gmail.com</div>
+						<div class="user__name" style="font-size: 15px;"><b>{{ $global.state.projeto.nome }}</b></div>
 					</div>
 				</div>
 			</div>
@@ -26,6 +24,21 @@
 <script>
     export default {
         name: 'ProjetoSidebar',
+		mounted: function () {
+			this.carregarProjeto();
+		},
+		methods: {
+			carregarProjeto: function () {
+                axios.get('/projetos/' + this.$route.params.projeto).then((res) => {
+                    if (res.response && res.response.status === 404) {
+                        this.$flash('error', 'Este projeto não existe');
+                        this.$router.push('/projetos/listar');
+                    } else {
+						Vue.set(this.$global.state, 'projeto', res.data.projeto);
+					}
+                });
+			},
+        },
     }
 </script>
 
