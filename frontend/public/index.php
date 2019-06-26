@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ERROR | E_PARSE);
+
 $path = trim(strtok($_SERVER["REQUEST_URI"],'?'));
 
 $fileName = $_SERVER['DOCUMENT_ROOT'] . '/public' . $path;
